@@ -1,9 +1,10 @@
 import { Cross1Icon, HamburgerMenuIcon } from "@radix-ui/react-icons";
-import { Heart, Search, SearchCheck, ShoppingBag } from "lucide-react";
-import { useState } from "react";
+import { Heart, Search } from "lucide-react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { BsHandbag } from "react-icons/bs";
-import { CiHeart } from "react-icons/ci";
+
+import { motion, AnimatePresence } from "framer-motion";
 
 export function Header() {
   const [isOpen, setIsOpen] = useState(false);
@@ -24,7 +25,7 @@ export function Header() {
       <div className="px-4 mx-auto sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-20">
           <Link to={"#"} className="text-3xl font-bold font-jost">
-            Sneakers <span className="text-red-600 text-[10px]">&#9632;</span>
+            SNKRS <span className="text-red-600 text-[10px]">&#9632;</span>
           </Link>
           <div className="flex items-center">
             <nav className="hidden space-x-8 md:flex">
@@ -66,23 +67,28 @@ export function Header() {
           </div>
         </div>
       </div>
-      <div
-        className={`${
-          isOpen ? "block" : "hidden"
-        } lg:hidden absolute  w-full p-4 bg-white `}
-      >
-        <nav className="flex flex-col gap-10">
-          {navLinks.map((link) => (
-            <Link
-              key={link.name}
-              to={link.href}
-              className="block text-6xl font-semibold custom-link"
-            >
-              {link.name}
-            </Link>
-          ))}
-        </nav>
-      </div>
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            className="absolute w-full p-4 bg-white lg:hidden"
+          >
+            <nav className="flex flex-col gap-4">
+              {navLinks.map((link) => (
+                <Link
+                  key={link.name}
+                  to={link.href}
+                  className="block text-6xl font-semibold custom-link"
+                >
+                  {link.name}
+                </Link>
+              ))}
+            </nav>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </header>
   );
 }
