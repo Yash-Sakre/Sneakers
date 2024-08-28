@@ -14,7 +14,7 @@ export function Header() {
   };
 
   const navLinks = [
-    { name: "Men", href: "#" },
+    { name: "Men", href: "/products" },
     { name: "Women", href: "#" },
     { name: "Kids", href: "#" },
     { name: "Collection", href: "#" },
@@ -33,6 +33,7 @@ export function Header() {
                 <Link
                   key={link.name}
                   to={link.href}
+                  state={{ title: link.name}}
                   className="text-lg font-medium"
                 >
                   {link.name}

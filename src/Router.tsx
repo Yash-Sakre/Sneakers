@@ -8,6 +8,8 @@ import Home from "./pages/Home/Home";
 import Landing from "./pages/Landing";
 import NewArrival from "./pages/Home/NewArrival";
 import ProductsList from "./pages/ProductsList";
+import Checkout from "./pages/Checkout";
+import ProductDetail from "./pages/ProductDetail";
 
 export const router = createBrowserRouter(
   [
@@ -23,9 +25,16 @@ export const router = createBrowserRouter(
           path: "/products",
           element: <ProductsList />,
         },
+        {
+          path: "/products/:id",
+          element: <ProductDetail />,
+        },
       ],
     },
-
+    {
+      path: "/checkout",
+      element: <Checkout />,
+    },
     {
       path: "*",
       element: <NoMatch />,
