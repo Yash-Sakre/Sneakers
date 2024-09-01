@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 export function useProducts() {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [page, setPage] = useState<number>(1);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
@@ -12,10 +13,10 @@ export function useProducts() {
         const response = await axios.get("https://api.stockx.vlour.me/search", {
           params: {
             query: "",
-            page: "1",
+            page: page,
           },
         });
-  
+
         setProducts(response.data.hits);
       } catch (err: any) {
         console.error("Error fetching data:", err);
@@ -26,7 +27,7 @@ export function useProducts() {
     };
 
     dataFetcher();
-  }, []);
+  }, [page]);
 
-  return { products, loading, error };
+  return { products, loading, error, setPage };
 }

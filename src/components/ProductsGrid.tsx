@@ -1,5 +1,5 @@
 import { useProducts } from "@/hooks/useProducts";
-import React from "react";
+import React, { useState } from "react";
 import { Product } from "@/types/Sneakers";
 import ProductCard from "./ProductCard";
 import { Link } from "react-router-dom";
@@ -16,13 +16,28 @@ import {
 type Props = {};
 
 const ProductsGrid = (props: Props) => {
-  const { products } = useProducts();
+  const { products, setPage } = useProducts();
+  const [currentPage, setCurrentPage] = useState(1);
+  const totalPages = 10;
 
-  console.log(products);
+  const handlePrevious = () => {
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1);
+      setPage(currentPage - 1);
+    }
+  };
+
+  const handleNext = () => {
+    if (currentPage < totalPages) {
+      setCurrentPage(currentPage + 1);
+      setPage(currentPage + 1);
+    }
+  };
+
   return (
     <div className="">
-      <div className="flex items-center justify-between ">
-        <div>12 Product</div>
+      <div className="flex items-center justify-between">
+        <div className="text-xl font-semibold">{products.length} Products</div>
         <div>Clear all filter</div>
       </div>
       <div className="flex flex-wrap items-center justify-center gap-5 my-10">
@@ -31,9 +46,9 @@ const ProductsGrid = (props: Props) => {
             <Link
               to={`/products/${product.id}`}
               key={index}
-              className="flex items-center justify-center "
+              className="flex items-center justify-center"
             >
-              <div className="flex flex-col items-center ">
+              <div className="flex flex-col items-center">
                 <ProductCard
                   title={product.title}
                   category={product.category}
@@ -50,24 +65,26 @@ const ProductsGrid = (props: Props) => {
           <Pagination>
             <PaginationContent>
               <PaginationItem>
-                <PaginationPrevious href="#" />
+                <PaginationPrevious onClick={handlePrevious} />
               </PaginationItem>
+              {Array.from({ length: totalPages }, (_, index) => {
+                const pageIndex = index + 1;
+                return (
+                  <PaginationItem key={index}>
+                    <PaginationLink
+                      onClick={() => {
+                        setCurrentPage(pageIndex);
+                        setPage(pageIndex);
+                      }}
+                      isActive={currentPage === pageIndex}
+                    >
+                      {pageIndex}
+                    </PaginationLink>
+                  </PaginationItem>
+                );
+              })}
               <PaginationItem>
-                <PaginationLink href="#" isActive>
-                  1
-                </PaginationLink>
-              </PaginationItem>
-              <PaginationItem>
-                <PaginationLink href="#">2</PaginationLink>
-              </PaginationItem>
-              <PaginationItem>
-                <PaginationLink href="#">3</PaginationLink>
-              </PaginationItem>
-              <PaginationItem>
-                <PaginationEllipsis />
-              </PaginationItem>
-              <PaginationItem>
-                <PaginationNext href="#" />
+                <PaginationNext onClick={handleNext} />
               </PaginationItem>
             </PaginationContent>
           </Pagination>

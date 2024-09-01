@@ -35,7 +35,7 @@ export default function ProductDetail() {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center px-10 my-10 space-x-20 md:flex-row">
+    <div className="flex flex-col items-start justify-center px-10 my-10 space-x-20 md:flex-row">
       <div className="flex items-center justify-center flex-1 bg-gray-200">
         {product?.image ? (
           <img
