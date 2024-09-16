@@ -5,9 +5,11 @@ import { Link } from "react-router-dom";
 import { BsHandbag } from "react-icons/bs";
 
 import { motion, AnimatePresence } from "framer-motion";
+import { useCartContext } from "@/contexts/CartContext";
 
 export function Header() {
   const [isOpen, setIsOpen] = useState(false);
+  const { cart } = useCartContext();
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
@@ -15,16 +17,16 @@ export function Header() {
 
   const navLinks = [
     { name: "Men", href: "/products" },
-    { name: "Women", href: "#" },
-    { name: "Kids", href: "#" },
-    { name: "Collection", href: "#" },
+    { name: "Women", href: "/products" },
+    { name: "Kids", href: "/products" },
+    { name: "Collection", href: "/products" },
   ];
 
   return (
     <header className="z-10 w-full border-b md:px-10">
       <div className="px-4 mx-auto sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-20">
-          <Link to={"#"} className="text-3xl font-bold font-jost">
+          <Link to={"/"} className="text-3xl font-bold font-jost">
             SNKRS <span className="text-red-600 text-[10px]">&#9632;</span>
           </Link>
           <div className="flex items-center">
@@ -33,7 +35,7 @@ export function Header() {
                 <Link
                   key={link.name}
                   to={link.href}
-                  state={{ title: link.name}}
+                  state={{ title: link.name }}
                   className="text-lg font-medium"
                 >
                   {link.name}
@@ -49,8 +51,11 @@ export function Header() {
               <Link to="#" className="hidden md:block ">
                 <Heart />
               </Link>
-              <Link to="#" className="">
+              <Link to="/checkout" className="relative">
                 <BsHandbag size={23} />
+                <div className="absolute text-sm font-medium bg-red-400 -right-3 -top-2 px-[4px] py-[3px] rounded-full flex items-center justify-center">
+                  {cart.length}
+                </div>
               </Link>
             </div>
             <div className="flex items-center md:hidden">
@@ -81,6 +86,7 @@ export function Header() {
                 <Link
                   key={link.name}
                   to={link.href}
+                  state={{ title: link.name }}
                   className="block text-6xl font-semibold custom-link"
                 >
                   {link.name}

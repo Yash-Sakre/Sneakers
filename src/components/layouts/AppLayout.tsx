@@ -7,21 +7,23 @@ export function Applayout() {
   const location = useLocation();
 
   const isProductsPage = location.pathname.includes("/products");
+  const isCheckoutPage = location.pathname.includes("/checkout");
 
-  console.log(isProductsPage);
   return (
     <>
       <Header />
-      <div
-        className={`flex flex-col items-center py-2 ${
-          isProductsPage ? "bg-black text-white" : ""
-        }  `}
-      >
-        <div>Members : Free Shipping on Orders $50+</div>
-        <Link to={"#"} className="font-semibold underline">
-          Join Now
-        </Link>
-      </div>
+      {!isCheckoutPage && (
+        <div
+          className={`flex flex-col items-center py-2 ${
+            isProductsPage ? "bg-black text-white" : ""
+          }  `}
+        >
+          <div>Members : Free Shipping on Orders $50+</div>
+          <Link to={"#"} className="font-semibold underline">
+            Join Now
+          </Link>
+        </div>
+      )}
       <div className="flex flex-col flex-grow">
         <div className="flex flex-col flex-grow">
           <Outlet />

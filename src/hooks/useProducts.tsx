@@ -10,12 +10,15 @@ export function useProducts() {
   useEffect(() => {
     const dataFetcher = async () => {
       try {
-        const response = await axios.get("https://api.stockx.vlour.me/search", {
-          params: {
-            query: "",
-            page: page,
-          },
-        });
+        const response = await axios.get(
+          `${import.meta.env.VITE_APIURL}/search`,
+          {
+            params: {
+              query: "shoes",
+              page: page,
+            },
+          }
+        );
 
         setProducts(response.data.hits);
       } catch (err: any) {
