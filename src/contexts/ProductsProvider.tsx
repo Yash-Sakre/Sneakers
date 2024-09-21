@@ -7,7 +7,7 @@ function ProductsProvider({ children }: { children: any }) {
   const products = useProducts();
 
   return (
-    <productContext.Provider value={products}>
+    <productContext.Provider value={[products]}>
       {children}
     </productContext.Provider>
   );
