@@ -1,3 +1,4 @@
+import Filter from "@/components/Filter";
 import ProductsGrid from "@/components/ProductsGrid";
 import { useLocation } from "react-router-dom";
 
@@ -10,7 +11,7 @@ const ProductsList = (props: Props) => {
       <div>
         <div className="text-7xl font-anton">{state.title}</div>
       </div>
-      <div className="h-20 bg-yellow-50">Filter</div>
+      <div className="h-20 "><Filter /></div>
       <ProductsGrid />
     </div>
   );

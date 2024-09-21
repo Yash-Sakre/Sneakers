@@ -6,20 +6,22 @@ import { BsHandbag } from "react-icons/bs";
 
 import { motion, AnimatePresence } from "framer-motion";
 import { useCartContext } from "@/contexts/CartContext";
+import { useSessionStorage } from "@/hooks/useSessionStorage";
 
 export function Header() {
   const [isOpen, setIsOpen] = useState(false);
   const { cart } = useCartContext();
+  const [gender, setGender] = useSessionStorage("gender", "");
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
   };
 
   const navLinks = [
-    { name: "Men", href: "/products" },
-    { name: "Women", href: "/products" },
-    { name: "Kids", href: "/products" },
-    { name: "Collection", href: "/products" },
+    { name: "Men", href: "/products", gender: "male" },
+    { name: "Women", href: "/products", gender: "female" },
+    { name: "Kids", href: "/products", gender: "kids" },
+    { name: "Unisex", href: "/products", gender: "unisex" },
   ];
 
   return (
@@ -37,6 +39,7 @@ export function Header() {
                   to={link.href}
                   state={{ title: link.name }}
                   className="text-lg font-medium"
+                  onClick={() => setGender(link.gender)}
                 >
                   {link.name}
                 </Link>
