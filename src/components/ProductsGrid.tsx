@@ -1,5 +1,5 @@
 import { useProducts } from "@/hooks/useProducts";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Product } from "@/types/Sneakers";
 import ProductCard from "./ProductCard";
 import { Link } from "react-router-dom";
@@ -34,12 +34,22 @@ const ProductsGrid = (props: Props) => {
     }
   };
 
+  const [isMobileView, setIsMobileView] = useState(false);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobileView(window.innerWidth <= 640);
+    };
+
+    window.addEventListener("resize", handleResize);
+    handleResize(); // Check initial window size
+
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
   return (
     <div className="">
-      <div className="flex items-center justify-between">
-        <div className="text-xl font-semibold">{products.length} Products</div>
-        <div>Clear all filter</div>
-      </div>
+      <div className="flex items-center justify-between"></div>
       <div className="flex flex-wrap items-center justify-center gap-5 my-10">
         {products.map((product: Product, index) => {
           return (
@@ -67,22 +77,38 @@ const ProductsGrid = (props: Props) => {
               <PaginationItem>
                 <PaginationPrevious onClick={handlePrevious} />
               </PaginationItem>
-              {Array.from({ length: totalPages }, (_, index) => {
-                const pageIndex = index + 1;
-                return (
-                  <PaginationItem key={index}>
-                    <PaginationLink
-                      onClick={() => {
-                        setCurrentPage(pageIndex);
-                        setPage(pageIndex);
-                      }}
-                      isActive={currentPage === pageIndex}
-                    >
-                      {pageIndex}
-                    </PaginationLink>
-                  </PaginationItem>
-                );
-              })}
+
+              {/* Determine how many pages to show based on screen size */}
+              {Array.from(
+                { length: Math.min(totalPages, isMobileView ? 3 : 10) },
+                (_, index) => {
+                  let pageIndex = currentPage + index;
+
+                  if (isMobileView) {
+                    // On mobile, ensure we don't go out of bounds for pages
+                    if (currentPage === 1) {
+                      pageIndex = index + 1; // always show from page 1 for mobile
+                    }
+                  }
+
+                  if (pageIndex > totalPages) return null;
+
+                  return (
+                    <PaginationItem key={pageIndex}>
+                      <PaginationLink
+                        onClick={() => {
+                          setCurrentPage(pageIndex);
+                          setPage(pageIndex);
+                        }}
+                        isActive={currentPage === pageIndex}
+                      >
+                        {pageIndex}
+                      </PaginationLink>
+                    </PaginationItem>
+                  );
+                }
+              )}
+
               <PaginationItem>
                 <PaginationNext onClick={handleNext} />
               </PaginationItem>

@@ -13,10 +13,6 @@ export function Header() {
   const { cart } = useCartContext();
   const [gender, setGender] = useSessionStorage("gender", "");
 
-  const toggleMenu = () => {
-    setIsOpen(!isOpen);
-  };
-
   const navLinks = [
     { name: "Men", href: "/products", gender: "male" },
     { name: "Women", href: "/products", gender: "female" },
@@ -63,7 +59,7 @@ export function Header() {
             </div>
             <div className="flex items-center md:hidden">
               <button
-                onClick={toggleMenu}
+                onClick={() => setIsOpen(!isOpen)}
                 className="text-gray-800 hover:text-gray-600 focus:outline-none"
               >
                 {isOpen ? (
@@ -91,6 +87,10 @@ export function Header() {
                   to={link.href}
                   state={{ title: link.name }}
                   className="block text-6xl font-semibold custom-link"
+                  onClick={() => {
+                    setIsOpen(!isOpen);
+                    setGender(link.gender);
+                  }}
                 >
                   {link.name}
                 </Link>

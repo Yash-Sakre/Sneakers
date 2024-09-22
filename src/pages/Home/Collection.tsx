@@ -4,24 +4,28 @@ import women from "@/assets/pexels-wendelmoretti-1972115.jpg";
 import men from "@/assets/pexels-atta-peters-15367227-25525601.jpg";
 import kid from "@/assets/pexels-amina-filkins-5560018.jpg";
 import { Button } from "@/components/ui/button";
+import { Link } from "react-router-dom";
+import { useSessionStorage } from "@/hooks/useSessionStorage";
 
 type Props = {};
 
 const Collection = (props: Props) => {
+  const [gender, setGender] = useSessionStorage("gender", "");
   return (
     <div className="min-h-screen p-10 lg:p-20">
       <div className="text-4xl md:text-5xl font-anton">Shop by Collection</div>
       <div className="flex flex-col justify-center flex-1 gap-4 mt-2 md:gap-10 md:mt-10 md:flex-row">
         {[
-          { img: women, label: "Women" },
-          { img: men, label: "Men" },
-          { img: kid, label: "Kids" },
+          { img: women, label: "Women", href: "/products" },
+          { img: men, label: "Men", href: "/products" },
+          { img: kid, label: "Kids", href: "/products" },
         ].map((item, index) => (
-          <motion.div
+          <Link
             key={index}
+            to={item.href}
+            state={{ title: item.label }}
             className="relative flex flex-col items-center justify-center flex-1 w-full h-full cursor-pointer"
-            whileHover={{ scale: 1.05 }}
-            transition={{ duration: 0.3 }}
+            onClick={() => setGender(item.label)}
           >
             <img
               src={item.img}
@@ -45,7 +49,7 @@ const Collection = (props: Props) => {
                 Shop Now
               </Button>
             </div>
-          </motion.div>
+          </Link>
         ))}
       </div>
     </div>

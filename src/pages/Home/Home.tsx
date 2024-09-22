@@ -8,7 +8,6 @@ export interface IAppProps {}
 export default function App(props: IAppProps) {
   return (
     <div className="flex flex-col items-center justify-center w-full ">
-     
       <div className="w-full ">
         <HomeBanner />
       </div>

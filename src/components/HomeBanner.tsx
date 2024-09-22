@@ -3,6 +3,7 @@ import * as React from "react";
 import Retro from "@/assets/Frame 43 (1).png";
 import { Button } from "./ui/button";
 import Limited from "@/assets/Limited Edition Circle.png";
+
 type Props = {};
 
 const CarouselList = [
@@ -34,12 +35,6 @@ const HomeBanner = (props: Props) => {
               </div>
               <div className=" w-[350px] md:w-[600px] text-xl text-white font-medium">
                 {item.description}
-              </div>
-
-              <div>
-                <Button className="p-8 text-4xl text-black bg-white rounded-none font-anton hover:bg-white">
-                  Shop Now!
-                </Button>
               </div>
             </div>
 

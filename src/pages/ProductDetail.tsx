@@ -56,7 +56,7 @@ export default function ProductDetail() {
   };
 
   return (
-    <div className="flex flex-col items-start justify-center px-10 my-10 space-x-20 md:flex-row">
+    <div className="flex flex-col items-start justify-center px-10 my-10 md:space-x-20 md:flex-row">
       <div className="flex items-center justify-center flex-1 bg-gray-200">
         {product?.image ? (
           <img
@@ -69,7 +69,7 @@ export default function ProductDetail() {
         )}
       </div>
       <div className="flex flex-col flex-1 gap-4">
-        <div className="text-sm text-muted-foreground">
+        <div className="mt-2 md:text-sm text-muted-foreground">
           {product?.category || "Category not available"}
         </div>
         <h1 className="text-3xl font-bold">{product?.title || "Loading..."}</h1>
@@ -97,29 +97,40 @@ export default function ProductDetail() {
           See more...
         </a>
         <hr />
-        <div className="flex flex-wrap w-1/2 gap-2 mt-4">
+        <div className="flex flex-wrap gap-2 mt-4 md:w-1/2">
           {product?.variants &&
             product.variants.length > 1 &&
-            Array.from(
-              new Set(product.variants.map((variant) => variant.size))
-            ).map((uniqueSize) => {
-              return (
-                <Button
-                  size={"icon"}
-                  variant={"ghost"}
-                  key={uniqueSize}
-                  onClick={() => handleSizeChange(uniqueSize)}
-                  className={`w-0 p-5 text-center border-2 rounded-none ${
-                    selectedVariant?.size === uniqueSize
-                      ? "border-black bg-black text-white"
-                      : "border-black"
-                  }`}
-                >
-                  {uniqueSize}
-                </Button>
-              );
-            })}
+            Array.from(new Set(product.variants.map((variant) => variant.size)))
+              .sort((a, b) => {
+                // Sorting numerically or alphanumerically (you can adjust this logic based on your size data)
+                const numA = parseFloat(a);
+                const numB = parseFloat(b);
+
+                // If both are numbers, sort them numerically
+                if (!isNaN(numA) && !isNaN(numB)) {
+                  return numA - numB;
+                }
+                return a.localeCompare(b); // Alphanumeric comparison for S, M, L, etc.
+              })
+              .map((uniqueSize) => {
+                return (
+                  <Button
+                    size={"icon"}
+                    variant={"ghost"}
+                    key={uniqueSize}
+                    onClick={() => handleSizeChange(uniqueSize)}
+                    className={`w-0 p-5 text-center border-2 rounded-none ${
+                      selectedVariant?.size === uniqueSize
+                        ? "border-black bg-black text-white"
+                        : "border-black"
+                    }`}
+                  >
+                    {uniqueSize}
+                  </Button>
+                );
+              })}
         </div>
+
         {product?.variants && product.variants.length > 1 && <hr />}
         <div className="flex items-center gap-4 mt-4">
           <select
