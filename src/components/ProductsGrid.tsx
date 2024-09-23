@@ -12,12 +12,14 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
+import PulseLoader from "react-spinners/PulseLoader";
 
 type Props = {};
 
 const ProductsGrid = (props: Props) => {
-  const { products, setPage } = useProducts();
+  const { products, setPage, loading } = useProducts();
   const [currentPage, setCurrentPage] = useState(1);
+  const [isMobileView, setIsMobileView] = useState(false);
   const totalPages = 10;
 
   const handlePrevious = () => {
@@ -34,8 +36,6 @@ const ProductsGrid = (props: Props) => {
     }
   };
 
-  const [isMobileView, setIsMobileView] = useState(false);
-
   useEffect(() => {
     const handleResize = () => {
       setIsMobileView(window.innerWidth <= 640);
@@ -50,27 +50,35 @@ const ProductsGrid = (props: Props) => {
   return (
     <div className="">
       <div className="flex items-center justify-between"></div>
+      <div className="flex items-center justify-center w-full h-full">
+        {loading && (
+          <p className="h-[60vh] items-center ">
+            <PulseLoader />
+          </p>
+        )}
+      </div>
       <div className="flex flex-wrap items-center justify-center gap-5 my-10">
-        {products.map((product: Product, index) => {
-          return (
-            <Link
-              to={`/products/${product.id}`}
-              key={index}
-              className="flex items-center justify-center"
-            >
-              <div className="flex flex-col items-center">
-                <ProductCard
-                  title={product.title}
-                  category={product.category}
-                  price={product.base_price}
-                  imageSrc={product.image}
-                  brand={product.brand}
-                  labels={product.labels}
-                />
-              </div>
-            </Link>
-          );
-        })}
+        {!loading &&
+          products.map((product: Product, index) => {
+            return (
+              <Link
+                to={`/products/${product.id}`}
+                key={index}
+                className="flex items-center justify-center"
+              >
+                <div className="flex flex-col items-center">
+                  <ProductCard
+                    title={product.title}
+                    category={product.category}
+                    price={product.base_price}
+                    imageSrc={product.image}
+                    brand={product.brand}
+                    labels={product.labels}
+                  />
+                </div>
+              </Link>
+            );
+          })}
         <div>
           <Pagination>
             <PaginationContent>

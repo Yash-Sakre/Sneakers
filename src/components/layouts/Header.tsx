@@ -47,9 +47,7 @@ export function Header() {
               <Link to="#" className="">
                 <Search />
               </Link>
-              <Link to="#" className="hidden md:block ">
-                <Heart />
-              </Link>
+
               <Link to="/checkout" className="relative">
                 <BsHandbag size={23} />
                 <div className="absolute text-sm font-medium bg-red-400 -right-3 -top-2 px-[4px] py-[3px] rounded-full flex items-center justify-center">
