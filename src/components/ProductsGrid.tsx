@@ -22,6 +22,8 @@ const ProductsGrid = (props: Props) => {
   const [isMobileView, setIsMobileView] = useState(false);
   const totalPages = 10;
 
+  console.log(products)
+
   const handlePrevious = () => {
     if (currentPage > 1) {
       setCurrentPage(currentPage - 1);

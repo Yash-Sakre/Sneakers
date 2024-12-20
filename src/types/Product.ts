@@ -1,4 +1,6 @@
 export interface Variant {
+  id:number;
+  
   size: string;
   price: number;
   currency: string;

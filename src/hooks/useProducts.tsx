@@ -36,15 +36,20 @@ export function useProducts() {
     setLoading(true);
     try {
       const response = await axios.get(
-        `${import.meta.env.VITE_APIURL}/search`,
+        `${import.meta.env.VITE_APIURL}/products`,
+        
         {
+          headers:{
+            Authorization: `${import.meta.env.VITE_STOCKX_AUTH}`
+          },
+  
           params: {
             query: query,
             page: page,
           },
         }
       );
-      setProducts(response.data.hits);
+      setProducts(response.data.data);
     } catch (err: any) {
       console.error("Error fetching data:", err);
       setError("Something went wrong while fetching data.");
